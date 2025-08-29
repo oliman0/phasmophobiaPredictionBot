@@ -15,6 +15,13 @@ export const data = new SlashCommandBuilder()
     
 
 export async function execute(interaction, context) {
+    if (interaction.guildId === 0 || interaction.guildId == undefined) {
+        await interaction.reply({ content: 'This command can only be used in a server.', ephemeral: true });
+        return;
+    }
+
+    console.log(interaction.user.tag + ' used /startprediction in ' + interaction.guildID);
+
     if (context.predictions.has(interaction.guildId)) {
         await interaction.reply({ content: 'There is already an active prediction in this server.', ephemeral: true });
         return;
