@@ -20,8 +20,6 @@ export async function execute(interaction, context) {
         return;
     }
 
-    console.log(interaction.user.tag + ' used /startprediction in ' + interaction.guildID);
-
     if (context.predictions.has(interaction.guildId)) {
         await interaction.reply({ content: 'There is already an active prediction in this server.', ephemeral: true });
         return;

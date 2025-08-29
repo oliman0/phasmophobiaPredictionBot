@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "discord.js": "^14.22.1"
+    "discord.js": "^14.22.1",
+    "mongodb": "^6.19.0"
   }
 }

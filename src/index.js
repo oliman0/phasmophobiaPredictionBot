@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 import config from '../config.json' with { type: 'json' };
+import { MongoClient } from 'mongodb';
 
 const __dirname = import.meta.dirname;
 
@@ -41,6 +42,11 @@ const client = new Client({ intents: [ GatewayIntentBits.GuildMessages, GatewayI
 client.commands = new Collection();
 client.buttons = new Collection();
 client.selects = new Collection();
+
+const databaseClient = new MongoClient(config.mongodbURL);
+await databaseClient.connect();
+
+context.usersCollection = databaseClient.db("phasmoPrediction").collection("users");
 
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -150,6 +156,7 @@ client.login(config.token);
 
 process.on('exit', (code) => {
 	client.destroy();
+	databaseClient.close();
 	console.log('Exitting...', code);
 });
 
